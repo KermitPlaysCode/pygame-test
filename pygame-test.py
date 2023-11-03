@@ -6,6 +6,7 @@
 import pygame
 from sys import exit
 from os.path import dirname
+from math import cos
 
 pygame.init()
 screen = pygame.display.set_mode((800,600))
@@ -27,6 +28,7 @@ minx = 10
 maxx = 790
 miny = 255
 maxy = 265
+waves = 8 # boat waves across screen
 
 x=minx
 y=miny
@@ -56,15 +58,12 @@ while iwannastay:
     screen.blit(bg_surface, (0,0))
     screen.blit(text_surface, (100,100))
     screen.blit(boat_surface, boat_rect)
-    boat_rect.top += vary
-    y += vary
-    if y > maxy or y < miny:
-        vary = -vary
     boat_rect.right += varx
     x += varx
     if x > maxx:
         x = minx
         boat_rect.right = minx
+    boat_rect.top = int((miny+maxy)/2) + (maxy-miny) * cos(waves * 2 * 3.1415 * x/(maxx-minx))
     
     # Mouse position, collision with a rect
     mouse_pos = pygame.mouse.get_pos()
